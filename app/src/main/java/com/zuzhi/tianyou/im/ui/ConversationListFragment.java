@@ -16,6 +16,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMConversation.EMConversationType;
 import com.easemob.easeui.ui.EaseConversationListFragment;
+import com.easemob.easeui.ui.EaseEmConversation;
 import com.easemob.util.NetUtils;
 import com.zuzhi.tianyou.R;
 import com.zuzhi.tianyou.activity.IMActivity;
@@ -43,15 +44,15 @@ public class ConversationListFragment extends EaseConversationListFragment{
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                EMConversation conversation = conversationListView.getItem(position);
-                String username = conversation.getUserName();
+                EaseEmConversation conversation = conversationListView.getItem(position);
+                String username = conversation.emConversation.getUserName();
                 if (username.equals(EMChatManager.getInstance().getCurrentUser()))
                     Toast.makeText(getActivity(), R.string.Cant_chat_with_yourself, Toast.LENGTH_SHORT).show();
                 else {
                     // 进入聊天页面
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
-                    if(conversation.isGroup()){
-                        if(conversation.getType() == EMConversationType.ChatRoom){
+                    if(conversation.emConversation.isGroup()){
+                        if(conversation.emConversation.getType() == EMConversationType.ChatRoom){
                             // it's group chat
                             intent.putExtra(Constant.EXTRA_CHAT_TYPE, Constant.CHATTYPE_CHATROOM);
                         }else{
@@ -85,21 +86,21 @@ public class ConversationListFragment extends EaseConversationListFragment{
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        boolean handled = false;
-        boolean deleteMessage = false;
         /*if (item.getItemId() == R.id.delete_message) {
             deleteMessage = true;
             handled = true;
         } else*/ if (item.getItemId() == R.id.delete_conversation) {
-        	EMConversation tobeDeleteCons = conversationListView.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
+            boolean deleteMessage = false;
+            EaseEmConversation tobeDeleteCons = conversationListView.getItem(((AdapterContextMenuInfo) item.getMenuInfo()).position);
             // 删除此会话
-            EMChatManager.getInstance().deleteConversation(tobeDeleteCons.getUserName(), tobeDeleteCons.isGroup(), deleteMessage);
+            EMChatManager.getInstance().deleteConversation(tobeDeleteCons.emConversation.getUserName(), tobeDeleteCons.emConversation.isGroup(), deleteMessage);
             InviteMessgeDao inviteMessgeDao = new InviteMessgeDao(getActivity());
-            inviteMessgeDao.deleteMessage(tobeDeleteCons.getUserName());
+            inviteMessgeDao.deleteMessage(tobeDeleteCons.emConversation.getUserName());
             refresh();
 
             // 更新消息未读数
-            ((IMActivity) getActivity()).updateUnreadLabel();        }
+            ((IMActivity) getActivity()).updateUnreadLabel();
+        }
         return true;
     }
 

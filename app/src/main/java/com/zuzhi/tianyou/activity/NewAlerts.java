@@ -8,14 +8,17 @@ import android.widget.TextView;
 import com.zcw.togglebutton.ToggleButton;
 import com.zuzhi.tianyou.R;
 import com.zuzhi.tianyou.base.BaseActivity;
+import com.easemob.easeui.utils.EaseSharedPreferencesUtils;
 
 /**
  * Created by Corydon on 2016/3/4.
  */
-public class NewAlerts extends BaseActivity implements View.OnClickListener {
+public class NewAlerts extends BaseActivity implements View.OnClickListener, ToggleButton.OnToggleChanged {
 
     /** 通知消息显示详情button */
     private ToggleButton mToggleButton;
+    /** 新消息通知TextView */
+    private TextView mNewAlertsTextView;
 
     @Override
     protected int setContent() {
@@ -25,12 +28,15 @@ public class NewAlerts extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initViews() {
         mToggleButton = (ToggleButton) findViewById(R.id.newAlertsButton);
-        mToggleButton.setOnToggleChanged(new ToggleButton.OnToggleChanged() {
-            @Override
-            public void onToggle(boolean on) {
+        mNewAlertsTextView = (TextView) findViewById(R.id.newAlertsOpenOrClose);
 
-            }
-        });
+        mNewAlertsTextView.setText("已开启");
+        if (EaseSharedPreferencesUtils.getInstance(this.getApplicationContext()).getNewAlertsButtonState()){
+            mToggleButton.setToggleOn();
+        } else {
+            mToggleButton.setToggleOff();
+        }
+        mToggleButton.setOnToggleChanged(this);
     }
 
     @Override
@@ -64,5 +70,11 @@ public class NewAlerts extends BaseActivity implements View.OnClickListener {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onToggle(boolean on) {
+        /** 存储button状态 */
+        EaseSharedPreferencesUtils.getInstance(this.getApplicationContext()).setNewAlertsButtonState(on);
     }
 }

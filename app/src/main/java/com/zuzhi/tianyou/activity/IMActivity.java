@@ -48,14 +48,6 @@ import com.zuzhi.tianyou.utils.Logs;
  */
 public class IMActivity extends IMBaseActivity implements View.OnClickListener, EMEventListener {
     protected static final String TAG = "IMActivity";
-    // 未读消息textview
-    private TextView unreadLabel;
-    // 未读通讯录textview
-    private TextView unreadAddressLable;
-
-    private Button[] mTabs;
-
-
     /**
      * contact list fragment 联系人列表页
      */
@@ -102,16 +94,6 @@ public class IMActivity extends IMBaseActivity implements View.OnClickListener, 
             startActivity(new Intent(this, LoginActivity.class));
             return;
         }
-//        setContentView(R.layout.em_activity_main);
-
-        unreadLabel = (TextView) findViewById(R.id.unread_msg_number);
-        unreadAddressLable = (TextView) findViewById(R.id.unread_address_number);
-        mTabs = new Button[2];
-        mTabs[0] = (Button) findViewById(R.id.btn_conversation);
-        mTabs[1] = (Button) findViewById(R.id.btn_address_list);
-        // 把第一个tab设为选中状态
-        mTabs[0].setSelected(true);
-
 
         if (getIntent().getBooleanExtra(Constant.ACCOUNT_CONFLICT, false) && !isConflictDialogShow) {
             showConflictDialog();
@@ -122,16 +104,10 @@ public class IMActivity extends IMBaseActivity implements View.OnClickListener, 
         inviteMessgeDao = new InviteMessgeDao(this);
         userDao = new UserDao(this);
         conversationListFragment = new ConversationListFragment();
-        contactListFragment = new ContactListFragment();
-        fragments = new Fragment[]{conversationListFragment, contactListFragment};
+        fragments = new Fragment[]{conversationListFragment};
         // 添加显示第一个fragment
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, conversationListFragment)
-                .add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(conversationListFragment)
-                .commit();
-
-        // 注册群组和联系人监听
-        DemoHelper.getInstance().registerGroupAndContactListener();
-        registerBroadcastReceiver();
+                .show(conversationListFragment).commit();
     }
 
     @Override
@@ -175,28 +151,8 @@ public class IMActivity extends IMBaseActivity implements View.OnClickListener, 
      */
     public void onTabClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_conversation:
-                index = 0;
-                break;
-            case R.id.btn_address_list:
-                index = 1;
-                break;
-//            case R.id.btn_setting:
-//                index = 2;
-//                break;
+
         }
-        if (currentTabIndex != index) {
-            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
-            trx.hide(fragments[currentTabIndex]);
-            if (!fragments[index].isAdded()) {
-                trx.add(R.id.fragment_container, fragments[index]);
-            }
-            trx.show(fragments[index]).commit();
-        }
-        mTabs[currentTabIndex].setSelected(false);
-        // 把当前tab设为选中状态
-        mTabs[index].setSelected(true);
-        currentTabIndex = index;
     }
 
     /**
@@ -261,15 +217,10 @@ public class IMActivity extends IMBaseActivity implements View.OnClickListener, 
             @Override
             public void onReceive(Context context, Intent intent) {
                 updateUnreadLabel();
-                updateUnreadAddressLable();
                 if (currentTabIndex == 0) {
                     // 当前页面如果为聊天历史页面，刷新此页面
                     if (conversationListFragment != null) {
                         conversationListFragment.refresh();
-                    }
-                } else if (currentTabIndex == 1) {
-                    if (contactListFragment != null) {
-                        contactListFragment.refresh();
                     }
                 }
                 String action = intent.getAction();
@@ -283,10 +234,6 @@ public class IMActivity extends IMBaseActivity implements View.OnClickListener, 
         broadcastManager.registerReceiver(broadcastReceiver, intentFilter);
     }
 
-    private void unregisterBroadcastReceiver() {
-        broadcastManager.unregisterReceiver(broadcastReceiver);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -295,7 +242,6 @@ public class IMActivity extends IMBaseActivity implements View.OnClickListener, 
             conflictBuilder.create().dismiss();
             conflictBuilder = null;
         }
-        unregisterBroadcastReceiver();
 
         try {
             unregisterReceiver(internalDebugReceiver);
@@ -309,29 +255,7 @@ public class IMActivity extends IMBaseActivity implements View.OnClickListener, 
     public void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
         if (count > 0) {
-            unreadLabel.setText(String.valueOf(count));
-            unreadLabel.setVisibility(View.VISIBLE);
-        } else {
-            unreadLabel.setVisibility(View.INVISIBLE);
         }
-    }
-
-    /**
-     * 刷新申请与通知消息数
-     */
-    public void updateUnreadAddressLable() {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                int count = getUnreadAddressCountTotal();
-                if (count > 0) {
-//					unreadAddressLable.setText(String.valueOf(count));
-                    unreadAddressLable.setVisibility(View.VISIBLE);
-                } else {
-                    unreadAddressLable.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
     }
 
     /**
@@ -374,12 +298,6 @@ public class IMActivity extends IMBaseActivity implements View.OnClickListener, 
         saveInviteMsg(msg);
         // 提示有新消息
         DemoHelper.getInstance().getNotifier().viberateAndPlayTone(null);
-
-        // 刷新bottom bar消息未读数
-        updateUnreadAddressLable();
-        // 刷新好友页面ui
-        if (currentTabIndex == 1)
-            contactListFragment.refresh();
     }
 
     /**
@@ -398,13 +316,6 @@ public class IMActivity extends IMBaseActivity implements View.OnClickListener, 
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (!isConflict && !isCurrentAccountRemoved) {
-            updateUnreadLabel();
-            updateUnreadAddressLable();
-        }
-
-
         // nextStep the event listener when enter the foreground
         EMChatManager.getInstance().registerEventListener(this,
                 new EMNotifierEvent.Event[]{EMNotifierEvent.Event.EventNewMessage, EMNotifierEvent.Event.EventOfflineMessage, EMNotifierEvent.Event.EventConversationListChanged});

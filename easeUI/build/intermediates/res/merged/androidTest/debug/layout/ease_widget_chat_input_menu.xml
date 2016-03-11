@@ -28,10 +28,10 @@
 
         <com.easemob.easeui.widget.EaseChatExtendMenu
             android:id="@+id/extend_menu"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
-            android:layout_marginTop="9dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
             easemob:numColumns="4" />
 
         <FrameLayout 

@@ -270,9 +270,10 @@ public class LoginGuideActivity extends BaseActivity implements View.OnClickList
                 break;
             //go to index 去首页逛逛
             case R.id.tv_login_guide_go_to_index:
-                intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                HXLogin();
+//                intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
                 break;
         }
     }
