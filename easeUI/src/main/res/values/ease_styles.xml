@@ -25,8 +25,8 @@
         <item name="android:paddingBottom">2dip</item>
         <item name="android:paddingLeft">12dip</item>
         <item name="android:paddingRight">12dip</item>
-        <item name="android:textColor">@color/btn_gray_normal</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_bg_time_text_color</item>
+        <item name="android:textSize">11sp</item>
         <item name="android:background">@drawable/ease_timestampe_bg</item>
     </style>
 

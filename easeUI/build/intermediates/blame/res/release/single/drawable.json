@@ -60,6 +60,10 @@
         "source": "D:\\Android\\AndroidStudioProjects\\ZuZhi\\easeUI\\src\\main\\res\\drawable\\ease_chatto_bg.xml"
     },
     {
+        "merged": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\release\\drawable\\ease_chat_primary_bg.xml",
+        "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\src\\main\\res\\drawable\\ease_chat_primary_bg.xml"
+    },
+    {
         "merged": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\release\\drawable\\ease_btn_cancel_normal_shape.xml",
         "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\src\\main\\res\\drawable\\ease_btn_cancel_normal_shape.xml"
     },

@@ -29,7 +29,6 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
     private View buttonSend;
     private View buttonPressToSpeak;
     private ImageView faceNormal;
-    private ImageView faceChecked;
     private Button buttonMore;
     private RelativeLayout faceLayout;
     private Context context;
@@ -59,31 +58,17 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         buttonSend = findViewById(R.id.btn_send);
         buttonPressToSpeak = findViewById(R.id.btn_press_to_speak);
         faceNormal = (ImageView) findViewById(R.id.iv_face_normal);
-        faceChecked = (ImageView) findViewById(R.id.iv_face_checked);
         faceLayout = (RelativeLayout) findViewById(R.id.rl_face);
         buttonMore = (Button) findViewById(R.id.btn_more);
-        edittext_layout.setBackgroundResource(R.drawable.ease_input_bar_bg_normal);
-        
+
         buttonSend.setOnClickListener(this);
         buttonSetModeKeyboard.setOnClickListener(this);
         buttonSetModeVoice.setOnClickListener(this);
         buttonMore.setOnClickListener(this);
         faceLayout.setOnClickListener(this);
         editText.setOnClickListener(this);
+        faceNormal.setOnClickListener(this);
         editText.requestFocus();
-        
-        editText.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    edittext_layout.setBackgroundResource(R.drawable.ease_input_bar_bg_active);
-                } else {
-                    edittext_layout.setBackgroundResource(R.drawable.ease_input_bar_bg_normal);
-                }
-
-            }
-        });
         // 监听文字框
         editText.addTextChangedListener(new TextWatcher() {
 
@@ -179,17 +164,10 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
             if(listener != null)
                 listener.onToggleExtendClicked();
         } else if (id == R.id.et_sendmessage) {
-            edittext_layout.setBackgroundResource(R.drawable.ease_input_bar_bg_active);
-            faceNormal.setVisibility(View.VISIBLE);
-            faceChecked.setVisibility(View.INVISIBLE);
             if(listener != null)
                 listener.onEditTextClicked();
-        } else if (id == R.id.rl_face) {
-            toggleFaceImage();
-            if(listener != null){
-                listener.onToggleEmojiconClicked();
-            }
-        } else {
+        } else if (id == R.id.iv_face_normal) {
+            listener.onToggleEmojiconClicked();
         }
     }
     
@@ -206,8 +184,6 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
         buttonSend.setVisibility(View.GONE);
         buttonMore.setVisibility(View.VISIBLE);
         buttonPressToSpeak.setVisibility(View.VISIBLE);
-        faceNormal.setVisibility(View.VISIBLE);
-        faceChecked.setVisibility(View.INVISIBLE);
 
     }
 
@@ -234,21 +210,13 @@ public class EaseChatPrimaryMenu extends EaseChatPrimaryMenuBase implements OnCl
     
     
     protected void toggleFaceImage(){
-        if(faceNormal.getVisibility() == View.VISIBLE){
             showSelectedFaceImage();
-        }else{
-            showNormalFaceImage();
-        }
     }
-    
+
     private void showNormalFaceImage(){
-        faceNormal.setVisibility(View.VISIBLE);
-        faceChecked.setVisibility(View.INVISIBLE);
     }
-    
+
     private void showSelectedFaceImage(){
-        faceNormal.setVisibility(View.INVISIBLE);
-        faceChecked.setVisibility(View.VISIBLE);
     }
     
 

@@ -856,6 +856,10 @@
         "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\src\\main\\res\\drawable-hdpi\\ease_input_bar_bg_active.9.png"
     },
     {
+        "merged": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ease_chatting_more_btn_normal.png",
+        "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\src\\main\\res\\drawable-hdpi\\ease_chatting_more_btn_normal.png"
+    },
+    {
         "merged": "D:\\Android\\AndroidStudioProjects\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ease_seabar_input.9.png",
         "source": "D:\\Android\\AndroidStudioProjects\\ZuZhi\\easeUI\\src\\main\\res\\drawable-hdpi\\ease_seabar_input.9.png"
     },

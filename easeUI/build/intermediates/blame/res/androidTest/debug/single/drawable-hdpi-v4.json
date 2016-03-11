@@ -884,6 +884,10 @@
         "source": "D:\\Android\\AndroidStudioProjects\\ZuZhi\\easeUI\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_mm_title_back.png"
     },
     {
+        "merged": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_chatting_more_btn_normal.png",
+        "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_chatting_more_btn_normal.png"
+    },
+    {
         "merged": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_type_select_btn_nor.png",
         "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_type_select_btn_nor.png"
     },

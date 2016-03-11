@@ -344,6 +344,10 @@
         "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_alert_dialog.xml"
     },
     {
+        "merged": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_chat_history_delete.xml",
+        "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_chat_history_delete.xml"
+    },
+    {
         "merged": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_showvideo_activity.xml",
         "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_showvideo_activity.xml"
     },

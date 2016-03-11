@@ -48,4 +48,6 @@
     <color name="color_separation_line">#e5e5e5</color>
     <!--disable color of identifying code background 验证码钮不可获取背景色-->
     <color name="color_bg_identifying_code_disable">#f5f5f5</color>
+    <color name="color_bg_time_text_color">#eeeeee</color>
+    <color name="color_chat_primary_edittext_line">#f3f3f3</color>
 </resources>

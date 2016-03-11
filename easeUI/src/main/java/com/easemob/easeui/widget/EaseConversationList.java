@@ -14,9 +14,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -37,6 +39,8 @@ import com.easemob.chat.EMMessage;
 import com.easemob.easeui.R;
 import com.easemob.easeui.adapter.EaseConversationAdapater;
 import com.easemob.easeui.domain.EaseUser;
+import com.easemob.easeui.ui.EaseEmConversation;
+import com.easemob.easeui.ui.EaseSlideView;
 import com.easemob.easeui.utils.EaseCommonUtils;
 import com.easemob.easeui.utils.EaseSmileUtils;
 import com.easemob.easeui.utils.EaseUserUtils;
@@ -50,13 +54,14 @@ public class EaseConversationList extends ListView {
     protected int primarySize;
     protected int secondarySize;
     protected float timeSize;
-    
 
     protected final int MSG_REFRESH_ADAPTER_DATA = 0;
     
     protected Context context;
     protected EaseConversationAdapater adapter;
+
     protected List<EMConversation> conversationList = new ArrayList<EMConversation>();
+    protected EaseSlideView mFocusedItemView;
     
     
     public EaseConversationList(Context context, AttributeSet attrs) {
@@ -86,7 +91,7 @@ public class EaseConversationList extends ListView {
     
     public void init(List<EMConversation> conversationList){
         this.conversationList = conversationList;
-        adapter = new EaseConversationAdapater(context, 0, conversationList);
+        adapter = new EaseConversationAdapater(context, 0, convertEMConversation2EaseEMConversation(conversationList));
         adapter.setPrimaryColor(primaryColor);
         adapter.setPrimarySize(primarySize);
         adapter.setSecondaryColor(secondaryColor);
@@ -172,8 +177,8 @@ public class EaseConversationList extends ListView {
         });
     }
     
-    public EMConversation getItem(int position) {
-        return (EMConversation)adapter.getItem(position);
+    public EaseEmConversation getItem(int position) {
+        return (EaseEmConversation)adapter.getItem(position);
     }
     
     public void refresh() {
@@ -185,7 +190,39 @@ public class EaseConversationList extends ListView {
     public void filter(CharSequence str) {
         adapter.getFilter().filter(str);
     }
-    
-    
-    
+
+    public List<EaseEmConversation> convertEMConversation2EaseEMConversation(List<EMConversation> emConversation){
+        List<EaseEmConversation> resultList = new ArrayList<>();
+
+        for (EMConversation conversation : emConversation) {
+            EaseEmConversation con = new EaseEmConversation();
+            con.emConversation = conversation;
+            resultList.add(con);
+        }
+        emConversation.clear();
+        return resultList;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                int position = pointToPosition(x, y);
+                if (position != INVALID_POSITION) {
+                    EaseEmConversation data = (EaseEmConversation) getItemAtPosition(position);
+                    mFocusedItemView = data.slideView;
+                }
+            }
+            default:
+                break;
+        }
+        if (mFocusedItemView != null) {
+            mFocusedItemView.onRequireTouchEvent(event);
+        }
+        return super.onTouchEvent(event);
+    }
+
+
 }

@@ -32,6 +32,10 @@
         "source": "D:\\Android\\AndroidStudioProjects\\ZuZhi\\easeUI\\src\\main\\res\\layout\\ease_widget_switch_button.xml"
     },
     {
+        "merged": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_chat_history_delete.xml",
+        "source": "D:\\GitHubWorkspace\\ZuZhi\\easeUI\\src\\main\\res\\layout\\ease_row_chat_history_delete.xml"
+    },
+    {
         "merged": "D:\\Android\\AndroidStudioProjects\\ZuZhi\\easeUI\\build\\intermediates\\res\\merged\\release\\layout\\ease_layout_chat_primary_menu.xml",
         "source": "D:\\Android\\AndroidStudioProjects\\ZuZhi\\easeUI\\src\\main\\res\\layout\\ease_layout_chat_primary_menu.xml"
     },

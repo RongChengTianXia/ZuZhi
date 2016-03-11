@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,28 +26,32 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.easemob.EMConnectionListener;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.easeui.R;
+import com.easemob.easeui.adapter.EaseConversationAdapater;
 import com.easemob.easeui.widget.EaseConversationList;
 import com.easemob.easeui.widget.EaseTitleBar;
 
 /**
  * 会话列表fragment
  */
-public class EaseConversationListFragment extends EaseBaseFragment {
+public class EaseConversationListFragment extends EaseBaseFragment implements EaseSlideView.OnSlideListener{
     protected EditText query;
     protected ImageButton clearSearch;
     protected boolean hidden;
-    protected List<EMConversation> conversationList = new ArrayList<EMConversation>();
+    protected List<EMConversation> conversationList = new ArrayList<>();
     protected EaseConversationList conversationListView;
     protected FrameLayout errorItemContainer;
     protected EaseTitleBar titleBar;
+    protected EaseConversationAdapater.ViewHolder viewHolder;
 
     protected boolean isConflict;
+    private EaseSlideView mLastSlideViewWithStatusOn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +73,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
 
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         //会话列表控件
-        conversationListView = (EaseConversationList) getView().findViewById(R.id.list);
+        conversationListView = (EaseConversationList) getView().findViewById(R.id. list);
         // 搜索框
         query = (EditText) getView().findViewById(R.id.query);
         // 搜索框中清除button
@@ -86,7 +91,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    EMConversation conversation = conversationListView.getItem(position);
+                    EaseEmConversation conversation = conversationListView.getItem(position);
                     listItemClickListener.onListItemClicked(conversation);
                 }
             });
@@ -211,7 +216,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
          * 保证Conversation在Sort过程中最后一条消息的时间不变 
          * 避免并发问题
          */
-        List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
+        List<Pair<Long, EMConversation>> sortList = new ArrayList<>();
         synchronized (conversations) {
             for (EMConversation conversation : conversations.values()) {
                 if (conversation.getAllMessages().size() != 0) {
@@ -295,13 +300,25 @@ public class EaseConversationListFragment extends EaseBaseFragment {
         }
     }
 
+    @Override
+    public void onSlide(View view, int status) {
+        if (mLastSlideViewWithStatusOn != null && mLastSlideViewWithStatusOn != view) {
+            mLastSlideViewWithStatusOn.shrink();
+        }
+
+        if (status == SLIDE_STATUS_ON) {
+            mLastSlideViewWithStatusOn = (EaseSlideView) view;
+        }
+    }
+
+
     public interface EaseConversationListItemClickListener {
         /**
          * 会话listview item点击事件
          *
          * @param conversation 被点击item所对应的会话
          */
-        void onListItemClicked(EMConversation conversation);
+        void onListItemClicked(EaseEmConversation conversation);
     }
 
     /**
