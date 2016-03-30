@@ -155,10 +155,10 @@ public class MyFragment extends BaseFragment implements View.OnClickListener,
                 break;
             case R.id.im_my_notice:     //闹钟
                 //unlogin state
-                if (MyApplication.user.getId() == 0) {
-                    ToastUtil.showToast(getActivity(), "请先登录！");
-                    return;
-                }
+//                if (MyApplication.user.getId() == 0) {
+//                    ToastUtil.showToast(getActivity(), "请先登录！");
+//                    return;
+//                }
                 //start im activity 启动社交页
                 intent = new Intent(getActivity(), IMActivity.class);
                 startActivity(intent);
